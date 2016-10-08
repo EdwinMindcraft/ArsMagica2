@@ -45,18 +45,13 @@ public class BlockWitchwoodLeaves extends BlockLeaves{
 	
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		return new ArrayList<ItemStack>();
-	}
 	
-	@Override
-	public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
-		if (!worldIn.isRemote){
-			int j1 = 150;
-
-			if (worldIn.rand.nextInt(j1) == 0){
-				dropBlockAsItem(worldIn, pos, BlockDefs.witchwoodSapling.getDefaultState(), fortune);
-			}
+		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
+		int j1 = 150;
+		if (RANDOM.nextInt(j1) == 0) {
+			drops.add(new ItemStack(BlockDefs.witchwoodSapling));
 		}
+		return drops;
 	}
 	
 	@Override
