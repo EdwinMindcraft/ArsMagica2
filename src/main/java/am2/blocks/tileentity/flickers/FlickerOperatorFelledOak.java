@@ -2,8 +2,8 @@ package am2.blocks.tileentity.flickers;
 
 import am2.api.ArsMagicaAPI;
 import am2.api.affinity.Affinity;
-import am2.api.flickers.IFlickerController;
 import am2.api.flickers.AbstractFlickerFunctionality;
+import am2.api.flickers.IFlickerController;
 import am2.api.math.AMVector3;
 import am2.defs.BlockDefs;
 import am2.defs.ItemDefs;
@@ -12,7 +12,6 @@ import am2.packet.AMDataReader;
 import am2.packet.AMDataWriter;
 import am2.utils.DummyEntityPlayer;
 import am2.utils.InventoryUtilities;
-import am2.utils.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -46,12 +45,10 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 					BlockPos newPos = new BlockPos(xPos, yPos, zPos);
 					IBlockState localblock = world.getBlockState(newPos);
 					if (state.getBlock() == localblock.getBlock()){
-						if (WorldUtils.getBlockMeta(localblock) == WorldUtils.getBlockMeta(state) % 4){
-							if (state.getBlock().removedByPlayer(localblock, world, newPos, dummyPlayer, true)){
-								state.getBlock().onBlockDestroyedByPlayer(world, newPos, state);
-							}
+						if (state.equals(localblock)){
 							state.getBlock().harvestBlock(world, dummyPlayer, newPos, state, null, null);
 							state.getBlock().onBlockHarvested(world, newPos, state, dummyPlayer);
+							world.destroyBlock(newPos, false);
 							destroyTree(world, newPos, state);
 						}
 					}
@@ -76,7 +73,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 			boolean foundTop = false;
 			do{
 				height++;
-				IBlockState block = world.getBlockState(new BlockPos(pos.getX(), height, pos.getY()));
+				IBlockState block = world.getBlockState(new BlockPos(pos.getX(), height, pos.getZ()));
 				if (block.getBlock() != wood.getBlock()){
 					height--;
 					foundTop = true;
@@ -85,17 +82,19 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 
 			int numLeaves = 0;
 			if (height - pos.getY() < 50){
+				//System.out.println(pos.up(height - pos.getY()));
 				for (int xPos = pos.getX() - 1; xPos <= pos.getX() + 1; xPos++){
 					for (int yPos = height - 1; yPos <= height + 1; yPos++){
 						for (int zPos = pos.getZ() - 1; zPos <= pos.getZ() + 1; zPos++){
-							IBlockState leaves = world.getBlockState(new BlockPos(xPos, yPos, zPos));
-							if (leaves != null && leaves.getBlock().isLeaves(leaves, world, new BlockPos(xPos, yPos, zPos)))
+							BlockPos newPos = new BlockPos(xPos, yPos, zPos);
+							IBlockState leaves = world.getBlockState(newPos);
+							if (leaves != null && leaves.getBlock().isLeaves(leaves, world, newPos))
 								numLeaves++;
 						}
 					}
 				}
 			}
-
+			
 			if (numLeaves > 3)
 				destroyTree(world, pos, world.getBlockState(pos));
 
@@ -219,7 +218,7 @@ public class FlickerOperatorFelledOak extends AbstractFlickerFunctionality{
 	@Override
 	public boolean DoOperation(World worldObj, IFlickerController<?> habitat, boolean powered){
 		int radius = 6;
-
+		
 		dummyPlayer = new DummyEntityPlayer(worldObj);
 
 		for (int i = -radius; i <= radius; ++i){
