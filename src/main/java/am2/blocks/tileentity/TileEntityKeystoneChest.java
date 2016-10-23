@@ -66,7 +66,6 @@ public class TileEntityKeystoneChest extends TileEntityLockableLoot implements I
 				setLidAngle(0f);
 			}
 		}
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 	}
 
 	@Override

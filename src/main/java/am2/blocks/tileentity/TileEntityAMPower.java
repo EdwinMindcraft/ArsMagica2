@@ -42,6 +42,11 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 		PowerNodeRegistry.For(this.worldObj).removePowerNode(this);
 		super.invalidate();
 	}
+	
+        @Override
+        public final NBTTagCompound getUpdateTag() {
+                return writeToNBT(new NBTTagCompound());
+        }
 
 	@Override
 	public void update(){
@@ -54,7 +59,6 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 					PowerNodeRegistry.For(worldObj).insertPower(this, type, amtObtained);
 			}
 		}
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 	}
 
 	public int getRequestInterval(){

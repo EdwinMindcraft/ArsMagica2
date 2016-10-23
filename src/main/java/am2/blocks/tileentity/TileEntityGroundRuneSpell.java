@@ -110,6 +110,5 @@ public class TileEntityGroundRuneSpell extends TileEntity implements ITickable{
 
 	@Override
 	public void update() {
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 2);
 	}
 }
