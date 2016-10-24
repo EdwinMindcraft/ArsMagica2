@@ -21,6 +21,8 @@ public class InventoryUtilities{
 			deducted = quantity;
 			if (stack.stackSize <= 0){
 				inventory.setInventorySlotContents(slotIndex, null);
+			} else {
+				inventory.setInventorySlotContents(slotIndex, stack);
 			}
 		}
 		return deducted;
