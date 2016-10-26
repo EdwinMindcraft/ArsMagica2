@@ -73,7 +73,6 @@ public class TileEntityParticleEmitter extends TileEntity implements ITickable{
 			}
 			worldObj.setBlockState(getPos(), worldObj.getBlockState(pos).withProperty(BlockParticleEmitter.HIDDEN, !forceShow), 3);
 		}
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 	}
 
 	private void doSpawn(){

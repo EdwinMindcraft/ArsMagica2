@@ -61,7 +61,6 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 			}
 		}
 		
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 	}
 
 	private void updateBookRender() {

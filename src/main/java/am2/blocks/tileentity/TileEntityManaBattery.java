@@ -63,7 +63,6 @@ public class TileEntityManaBattery extends TileEntityAMPower{
 			tickCounter = 0;
 		}
 
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 		super.update();
 	}
 

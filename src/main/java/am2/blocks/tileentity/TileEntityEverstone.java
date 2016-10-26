@@ -90,7 +90,6 @@ public class TileEntityEverstone extends TileEntity implements ITickable{
 			propagatePoweredByEverstone(false, new ArrayList<BlockPos>());
 		}
 
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 		worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(BlockEverstone.HAS_FACADE, getFacade() != null).withProperty(BlockEverstone.IS_SOLID, isSolid()), 2);
 		if (reconstructTimer <= 0)
 			return;
@@ -99,7 +98,6 @@ public class TileEntityEverstone extends TileEntity implements ITickable{
 			reconstructTimer--;
 			if (worldObj.isRemote){ //
 				//worldObj.scheduleBlockUpdateWithPriority(xCoord, yCoord, zCoord, BlocksCommonProxy.everstone.blockID, 0, 0);
-				worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 				if (reconstructTimer < reconstructMax - 20 && reconstructTimer > 20 && worldObj.rand.nextInt(10) < 8){
 					//TODO ArsMagica2.proxy.addDigParticle(worldObj, pos, getFacade() == null ? BlockDefs.everstone : getFacade(), getFacadeMeta());
 				}

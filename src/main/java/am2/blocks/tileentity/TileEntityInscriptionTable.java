@@ -180,6 +180,11 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return worldObj.getBlockState(pos).getValue(BlockInscriptionTable.LEFT);
 	}
 
+        @Override
+        public final NBTTagCompound getUpdateTag() {
+                return writeToNBT(new NBTTagCompound());
+        }
+
 	@Override
 	public void update(){
 		if (worldObj.getBlockState(pos).getBlock() != BlockDefs.inscriptionTable)
@@ -203,7 +208,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			if (shouldSet)
 				this.worldObj.setBlockState(pos, worldObj.getBlockState(pos).withProperty(BlockInscriptionTable.TIER_1, getUpgradeState() >= 1).withProperty(BlockInscriptionTable.TIER_2, getUpgradeState() >= 2).withProperty(BlockInscriptionTable.TIER_3, getUpgradeState() >= 3), 2);
 		}
-		worldObj.markAndNotifyBlock(pos, worldObj.getChunkFromBlockCoords(pos), worldObj.getBlockState(pos), worldObj.getBlockState(pos), 3);
 	}
 
 	public int getUpgradeState(){
