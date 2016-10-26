@@ -180,6 +180,11 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		return worldObj.getBlockState(pos).getValue(BlockInscriptionTable.LEFT);
 	}
 
+        @Override
+        public final NBTTagCompound getUpdateTag() {
+                return writeToNBT(new NBTTagCompound());
+        }
+
 	@Override
 	public void update(){
 		if (worldObj.getBlockState(pos).getBlock() != BlockDefs.inscriptionTable)
