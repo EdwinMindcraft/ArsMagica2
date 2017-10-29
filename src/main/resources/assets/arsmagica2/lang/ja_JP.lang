@@ -286,7 +286,7 @@ etherium.dark.name=闇
 etherium.neutral.name=中立
 
 enchantment.magicresist=魔法耐性
-enchantment.soulbound=未練
+enchantment.soulbound=ソウルバウンド
 
 
 keybindings.am2=Ars Magica 2
@@ -799,7 +799,7 @@ am2.tooltip.rupees=Also holds rupees!
 am2.tooltip.shaken=Shaken, not stirred.
 am2.tooltip.shiftForAffinity=Hold LSHIFT to see affinity details
 am2.tooltip.shiftForDetails=左シフトを押して詳細表示
-am2.tooltip.soulbnd=未練
+am2.tooltip.soulbnd=ソウルバウンド
 am2.tooltip.spellbookWarning1=警告:このアイテムを染色する前に
 am2.tooltip.spellbookWarning2=事前に呪文を取り除いてください
 am2.tooltip.step_up=ステップアシスト
@@ -1221,10 +1221,10 @@ compendium.category.guide.name=ガイド
 
 compendium.guide.your_first_spell.name=初めての魔法
 compendium.your_first_spell.page1=初めての魔法 !d 魔法を作るには, #5オキュラス#0 をつくる必要があり、少なくとも 1つの主効果と1つの形態を解除 する必要があります。 あなたはこれを解除するための 青ポイントを3持っています。 それで本と羽ペンを作り、 #5文机#0 を置きます。 本と羽ペンを文机に置きます。
-compendium.your_first_spell.page2=文机のUIには3つの区画があります。 魔法を作るための情報は、一番上 の大きい灰色の枠にあります。そこにはあなたが解除した「魔法の形態」「主効果」「補正効果」があります。 これをソース区画といいます。 「魔法の形態」のグループは、茶色の四角で区切られています。茶色の四角は複数あり、その数の分だけグループが作れます。一番下には小さい灰色の四角があり、そこが 魔法グラマーセクションです。
-compendium.your_first_spell.page3=Create UIの中にソース区画から他の四角に形態か主効果をドラッグすることにより、#5形態グループ#0 を作れます. 同じ魔法の形態グループを複数作ることはデフォルトで3つまで可能です. それぞれのグループは、4つの形態か主効果を置くことが可能です. 形態は同じグループに構成することはできません. A good way to think about it is that shape groups are different means of targeting things with the spell, then the spell grammar is what the spell actually does.
-compendium.your_first_spell.page4=Once your shape groups are created, drag the spell parts you want, in order, from the source region to the spell grammar section. The spell grammar section can contain spell shapes, components, and modifiers in addition to the shape groups. Once your combination is completed, go to your #5Crafting Altar#0 and place your book containing the spell recipe on the lectern.
-compendium.your_first_spell.page5=Throw a #5blank rune#0 into the middle of the crafting altar to begin the process, then follow the book's prompts. The book itself is worth reading as well, as it contains a recap of what the spell recipe is for, the materials list for the spell and an affinity breakdown of the spell. Note that certain crafting altars can only craft spells that are so powerful. Too much power and bad things can happen. See the entry on the #5Crafting Altar#0 for more information.
+compendium.your_first_spell.page2=文机には3つの区画があります。 魔法を作るための要素は、一番上 の大きい灰色の枠にあります。そこ にはあなたが解除した 「魔法の形態」 「主効果」 「補正効果」 があります。 これをソース区画といいます。 魔法形態グループは、茶色の四角で 区切られています。茶色の四角は 複数あり、その数の分だけグループ が作れます。 一番下には小さい灰色の四角が あり、そこが「魔法体系」セクション です。
+compendium.your_first_spell.page3=ソース区画から「魔法の形態」の グループの四角に形態か補正効果を ドラッグすることにより、 #5形態グループ#0を作れます。 同じ魔法の形態グループを複数作る ことはデフォルトで３つまで可能で す。それぞれのグループは、４つの 形態か主効果を置くことが可能で す。形態は同じグループに構成する ことはできません。考え方として は、対象ごとに異なる形態グループ の魔法とし、魔法体系には実際の 主効果を指定するようにします。
+compendium.your_first_spell.page4=「魔法の形態」グループを作成した ら、ソース区画から魔法要素を順番 に魔法体系セクションにドラッグし ます。魔法体系セクションには 「魔法の形態」 「主効果」 「補正効果」を追加することが出来 ます。 魔法の構成を作成したら#5創造の祭壇#0 へ行き、あなたの魔法レシピ本を #5書見台#0の上に置いてください。
+compendium.your_first_spell.page5=#5空のルーン#0を創造の祭壇の中央へ 投げ入れることで魔法作成のプロセ スを始めます。その後はレシピ本に 従います。 このレシピ本自体を読むことで、 効果、呪文の要約、素材リストを知 ることができます。特定の創造の祭 壇は非常に強力な魔法を作り出すこ とが出来ますが、強力な力、悪い出 来事が起こる可能性があります。 詳しくは、#5創造の祭壇#0の項を参照し てください。
 
 #Mechanics
 
@@ -1256,7 +1256,7 @@ compendium.mechanic.affinity.arcane_affinity.name=神秘の親和
 compendium.mechanic.affinity.ender_affinity.name=エンダーの親和
 
 compendium.mechanic.enchants.magic_resistance.name=魔法耐性
-compendium.mechanic.enchants.soulbound.name=未練
+compendium.mechanic.enchants.soulbound.name=ソウルバウンド
 
 compendium.affinities.page1=#5Affinity#0 represents a bond to certain areas of magic. You start with no affinity. Your affinity is represented as a small chart on the HUD, and can be viewed in more detail at an Occulus (craftable Block). 
 compendium.affinities.page2=Your affinity will shift based on what spells you cast, meaning as you cast certain types of spells more often, you will get better at them. Casting spells of a differing affinity will shift you towards that affinity. Once you reach 100% in an affinity, you become locked to that affinity, and will need to read an opposing affinity tome to unlock your affinity, at which point normal progression will resume.
@@ -1309,7 +1309,7 @@ compendium.mechanic.infusions.imbuement_mining_speed.name=Imbuement: 採掘速�
 compendium.mechanic.infusions.imbuement_thaumic_vision.name=Imbuement: ソーミックビジョン
 compendium.mechanic.infusions.imbuement_water_breathing.name=Imbuement: 水中呼吸
 compendium.mechanic.infusions.imbuement_flicker_lure.name=Imbuement: フリッカールアー
-compendium.mechanic.infusions.imbuement_soulbound.name=Imbuement: 未練
+compendium.mechanic.infusions.imbuement_soulbound.name=Imbuement: ソウルバウンド
 compendium.mechanic.infusions.imbuement_healing.name=Imbuement: 緊急回復
 compendium.mechanic.infusions.imbuement_life_saving.name=Imbuement: ライフセービング
 compendium.mechanic.infusions.imbuement_bonus_xp.name=Imbuement: 魔法経験値ボーナス
@@ -1488,6 +1488,12 @@ compendium.crystal_marker_set_import.page1=This crystal instructs the flickers t
 compendium.crystal_marker_final_export.page1=This crystal instructs the flickers that they should put any items that can't otherwise be placed in the inventory marked by this crystal. These crystals always have the highest priority number, meaning items will be placed there last.
 compendium.crystal_marker_spell_export.page1=This crystal instructs the flickers to watch any crafting altar within 10 blocks. If it is crafting a spell, the flickers will attempt to fetch the next item required for the spell and place it in the inventory marked by this crystal.
 
+compendium.block.illusionblocks.default_illusionblock.name=幻影ブロック
+compendium.block.illusionblocks.ethereal_illusionblock.name=エーテリウムの幻影ブロック
+
+compendium.block.default_illusionblock.page1=真下にあるブロックに擬態します。「真実の視界」により見破ることができます。
+compendium.block.ethereal_illusionblock.page1=真下にあるブロックに擬態します。触れるとすり抜けます。
+
 #Items
 
 compendium.category.item.name=アイテム
@@ -1496,7 +1502,7 @@ compendium.category.item.essence.name=エッセンス
 compendium.category.item.rune.name=ルーン
 compendium.category.item.armor.name=防具
 compendium.category.item.affinity_tomes.name=親和の書
-compendium.category.item.foci.name=Foci
+compendium.category.item.foci.name=レンズ
 compendium.category.item.mana_potion.name=マナポーション
 compendium.category.item.binding_catalyst.name=結合の触媒
 compendium.category.item.flickerfocus.name=フリッカーレンズ
