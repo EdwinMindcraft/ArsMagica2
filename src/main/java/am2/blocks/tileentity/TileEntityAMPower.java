@@ -8,6 +8,7 @@ import am2.power.PowerTypes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class TileEntityAMPower extends TileEntity implements IPowerNode<TileEntityAMPower>, ITickable{
@@ -80,6 +81,13 @@ public abstract class TileEntityAMPower extends TileEntity implements IPowerNode
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbttagcompound){
 		return super.writeToNBT(nbttagcompound);
+	}
+
+	@Override
+	public void setPos( BlockPos pos ){
+		PowerNodeRegistry.For(this.worldObj).removePowerNode(this);
+		super.setPos( pos );
+		PowerNodeRegistry.For(this.worldObj).registerPowerNode(this);
 	}
 
 	@Override
