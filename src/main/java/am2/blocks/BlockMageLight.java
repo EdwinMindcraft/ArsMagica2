@@ -7,6 +7,8 @@ import am2.ArsMagica2;
 import am2.items.ItemInscriptionTable;
 import am2.particles.AMParticle;
 import am2.particles.ParticleFloatUpward;
+import am2.particles.ParticleFleePoint;
+import am2.particles.ParticleFadeOut;
 import am2.particles.ParticleGrow;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
@@ -25,6 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -40,6 +43,7 @@ public class BlockMageLight extends BlockAMSpecialRender {
 		this.setDefaultState(blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
 		//setBlockBounds(0.35f, 0.35f, 0.35f, 0.65f, 0.65f, 0.65f);
 		this.setTickRandomly(true);
+//		this.setBlockTextureName("arsmagica2:flickerjar_flicker");
 	}
 
 	@Override
@@ -159,4 +163,31 @@ public class BlockMageLight extends BlockAMSpecialRender {
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(meta));
 	}
+
+	@Override
+    public boolean addDestroyEffects(World world, BlockPos pos, net.minecraft.client.particle.ParticleManager manager)
+    {
+		Random rand = new Random(431L);
+		double	x = pos.getX() + 0.5;
+		double	y = pos.getY() + 0.5;
+		double	z = pos.getZ() + 0.5;
+		for (int i = 0; i < 8; i++)
+		{
+			AMParticle particle = (AMParticle)ArsMagica2.proxy.particleManager.spawn( world, "sparkle", x, y, z );
+			if (particle != null)
+			{
+				particle.setIgnoreMaxAge(false);
+				particle.setMaxAge(10 + rand.nextInt(20));
+				double	xx = (rand.nextDouble() * 2) - 1;
+				double	yy = (rand.nextDouble() * 2) - 1;
+				double	zz = (rand.nextDouble() * 2) - 1;
+				particle.AddParticleController(new ParticleFleePoint(particle, new Vec3d(x + xx, y + yy, z + zz), 0.125f, 2f, 1, false));
+				particle.AddParticleController(new ParticleFadeOut(particle, 1, false).setFadeSpeed(0.1f));
+//				particle.AddParticleController(new ParticleGrow(particle, -0.005f, 1, false));
+	//			getRGBcolor(stateIn.getValue(COLOR));
+				particle.setRGBColorI(color);
+			}
+		}
+        return true;
+    }
 }
