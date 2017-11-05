@@ -820,7 +820,7 @@ am2.tooltip.wrongKeystoneUse=このブロックを使用するための正しい
 am2.tooltip.wrongWrenchMode=レンチは、それと対話するための適切なモードではありません。
 am2.tooltip.wtrbrth=水中呼吸
 am2.tooltip.wtrwalk=水中歩行
-am2.tooltip.infusions=Imbuements :
+am2.tooltip.infusions=効果 :
 am2.tooltip.missingReagents=いくつかの試薬が欠けています：
 
 am2.gui.XPNumeric=経験値の数値
@@ -1232,7 +1232,7 @@ compendium.your_first_spell.page5=#5空のルーン#0を創造の祭壇の中央
 compendium.category.mechanic.name=魔法の仕組み
 compendium.category.mechanic.affinity.name=親和性
 compendium.category.mechanic.enchants.name=エンチャント
-compendium.category.mechanic.infusions.name=修復
+compendium.category.mechanic.infusions.name=魔術エンチャント
 
 compendium.mechanic.spell_creation.name=魔法生成
 compendium.mechanic.infusion.name=修復
@@ -1291,7 +1291,7 @@ compendium.soulbound.page1=死の際にあなたの所持品を失うことに�
 compendium.armor_xp_infusion.page1=あなたが XP を得るたびに、装備された防具はいずれも XP を獲得します。得られた XP は、装備したすべての防具の間で均等に分けた XP の合計に等しいです。どんな防具も XP を得ることができます。防具 XP は#9アーマーインビュメントテーブル#0で使用できます。
 compendium.silver_skills.page1=シルバースキルは、通常の方法では得られないオキュラス内のスキルです。シルバー・スキルを解除するには、正しい呪文の組み合わせを作り、その呪文を唱える必要があります。シルバーのスキルアンロックの組み合わせには、それを予測できるようにするためのルールがいくつかあります。
 compendium.silver_skills.page2=1.）シルバースキルを解除するために必要なすべての要素は、#9シルバースキルと同じ#0ツリーにあります。!d2.）全てのシルバースキルは、#9ロックを解除するために、２～４つの主効果#0を必要とします。!d3.）シルバースキルのロック解除には形態は関係ありません。#9任意の形態#0を使用することができます。!d4.）組み合わせは、#9特定の順序#0である必要はありません。正しいコンポーネントが存在する限り、正常に動作します。
-compendium.silver_skills.page3=5.）主効果／修飾子は#9すべて同じステージ＃0になければなりません。!d6.）主効果と補正効果は、#9シルバースキル似たいし論理的に意味を持ちます#0。例えば、「火の嵐」は溺死する必要はありません。!d7.）シルバースキルのロックを解除する呪文は、一般的な使用には実用的ではないかもしれません。
+compendium.silver_skills.page3=5.）主効果／修飾子は#9すべて同じステージ#0になければなりません。!d6.）主効果と補正効果は、#9シルバースキル似たいし論理的に意味を持ちます#0。例えば、「火の嵐」は溺死する必要はありません。!d7.）シルバースキルのロックを解除する呪文は、一般的な使用には実用的ではないかもしれません。
 
 compendium.mechanic.infusions.imbuement_burnout_reduction.name=Imbuement: 魔術疲労低減
 compendium.mechanic.infusions.imbuement_fall_damage.name=Imbuement: 落下ダメージ耐性
