@@ -1727,6 +1727,14 @@ compendium.flicker_focus_natures_bounty.page1=The life, nature and water flicker
 compendium.flicker_focus_fishing.page1=The combination of Water and Nature flickers causes them to be able to find creatures that live in water. It does require power to maintain the search, however, as the flickers cover a great distance in a short time. If augmented with adjacent habitats containing lightning flickers, they are able to move even faster, causing them to naturally find fish more often. Doing so will increase the overall power use.
 compendium.flicker_focus_fishing.page2=The focus requires a 3x3 square of water below it that is also at least 2 blocks deep in order to function. It will output fish into an adjacent inventory if possible, or drop them as an item if no inventory is present. !d A redstone signal must be provided for the flickers to start working.
 
+#Inscription Table
+
+inscription_table.essence.name=Essence
+inscription_table.shape_group.name=Shape Group
+inscription_table.combination.name=Combination
+inscription_table.material_list.name=Materials List
+inscription_table.affinity_breakdown.name=Affinity Breakdown
+
 ##Inscription Upgrades
 
 compendium.item.inscription_upgrades.inscription_upgrades.name=Inscription Table Upgrades
