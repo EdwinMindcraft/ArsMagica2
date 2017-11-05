@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.io.FilenameUtils;
 import com.google.common.collect.Lists;
 
 import am2.ArsMagica2;
@@ -72,8 +73,9 @@ public class SpellRenderer implements ItemMeshDefinition {
                 String name = file.next().toString();
                 if (name.lastIndexOf(fs.getSeparator()) + 1 > name.length()) continue;
                 name = name.substring(name.lastIndexOf(fs.getSeparator()) + 1);
-                if (name.equals("")) continue;
-                toReturn.add(new ResourceLocation("arsmagica2:" + iconsPrefix + name.replace(".json", "")));
+//                if (name.equals("")) continue;
+                if (FilenameUtils.getExtension(name).equalsIgnoreCase("json"))
+                    toReturn.add(new ResourceLocation("arsmagica2:" + iconsPrefix + name.replace(".json", "")));
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -336,48 +336,72 @@ public class AMGuiHelper{
 	public static void drawCompendiumText(String text, int x_start, int y_start, int max_width, int start_color, FontRenderer fontRenderer){
 		int cur_color = start_color;
 		text = text.replaceAll("!d", "\n\n").replace("!l", "\n").replaceAll("-", "- ");
-		String[] words = text.split(" ");
-		int lineLength = 0;
-		int posX = x_start;
-		int posY = y_start;
 
-		for (String word : words){
-			if (word.equals("")) continue;
-			int linesBefore = 0;
-			int linesAfter = 0;
-
-			int wordLength = fontRenderer.getStringWidth(word.replaceAll("#.", "") + " ");
-			if (lineLength + wordLength > max_width){
+		if ( Minecraft.getMinecraft().gameSettings.language.equals("ja_JP") /*or other languages for newline without space*/ ){
+			int posY = y_start;
+			for ( int idx = 0; idx < text.length(); ){
+				String	temp = "";
+				while ( idx < text.length() ){
+					String	c = text.substring( idx, idx + 1 );
+					if ( c.equals("\n") ){
+						++idx;
+						break;
+					}
+					String	temp2 = temp + c;
+					int wordLength = fontRenderer.getStringWidth(temp2.replaceAll("#.", "") + " ");
+					if ( wordLength > max_width )
+						break;
+					temp = temp2;
+					++idx;
+				}
+				if ( temp.length() > 0 )
+					cur_color = parseColorAndDraw(temp, x_start, posY, cur_color, fontRenderer);
 				posY += fontRenderer.FONT_HEIGHT;
-				posX = x_start;
-				lineLength = 0;
 			}
+		}
+		else{
+			String[] words = text.split(" ");
+			int lineLength = 0;
+			int posX = x_start;
+			int posY = y_start;
+			for (String word : words){
+				if (word.equals("")) continue;
+				int linesBefore = 0;
+				int linesAfter = 0;
 
-			while (word.startsWith("\n")){
-				linesBefore++;
-				word = word.substring(1);
-			}
-			while (word.endsWith("\n")){
-				linesAfter++;
-				word = word.substring(0, word.length() - 1);
-			}
-			//word = word.replaceAll("\n", "");
-			
-			if (linesBefore > 0){
-				posY += fontRenderer.FONT_HEIGHT * linesBefore;
-				posX = x_start - 13;
-				lineLength = 0;
-			}
+				int wordLength = fontRenderer.getStringWidth(word.replaceAll("#.", "") + " ");
+				if (lineLength + wordLength > max_width){
+					posY += fontRenderer.FONT_HEIGHT;
+					posX = x_start;
+					lineLength = 0;
+				}
 
-			cur_color = parseColorAndDraw(word, posX, posY, cur_color, fontRenderer);
+				while (word.startsWith("\n")){
+					linesBefore++;
+					word = word.substring(1);
+				}
+				while (word.endsWith("\n")){
+					linesAfter++;
+					word = word.substring(0, word.length() - 1);
+				}
+				//word = word.replaceAll("\n", "");
+				
+				if (linesBefore > 0){
+					posY += fontRenderer.FONT_HEIGHT * linesBefore;
+					posX = x_start - 13;
+					lineLength = 0;
+				}
 
-			posX += wordLength;
-			lineLength += wordLength;
+				cur_color = parseColorAndDraw(word, posX, posY, cur_color, fontRenderer);
 
-			if (linesAfter > 0){
-				posY += fontRenderer.FONT_HEIGHT * linesAfter;
-				posX = x_start;
-				lineLength = 0;
+				posX += wordLength;
+				lineLength += wordLength;
+
+				if (linesAfter > 0){
+					posY += fontRenderer.FONT_HEIGHT * linesAfter;
+					posX = x_start;
+					lineLength = 0;
+				}
 			}
 		}
 	}
