@@ -51,6 +51,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.*;
 
@@ -704,20 +705,21 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 						materialkey = ((Block)o).getLocalizedName();
 					}else if (o instanceof String){
 						if (((String)o).startsWith("E:")){
+							String	nameEssence = I18n.translateToLocal("inscription_table.essence.name");
 							int[] ids = RecipeUtils.ParseEssenceIDs((String)o);
-							materialkey = "Essence (";
+							materialkey = nameEssence + " (";
 							for (int powerID : ids){
 								PowerTypes type = PowerTypes.getByID(powerID);
-								materialkey += type.name() + "/";
+								materialkey += I18n.translateToLocal("etherium." + type.name() + ".name") + "/";
 							}
 
-							if (materialkey.equals("Essence (")){
+							if (materialkey.equals(nameEssence + " (")){
 								++i;
 								continue;
 							}
 
 							o = recipeItems[++i];
-							if (materialkey.startsWith("Essence (")){
+							if (materialkey.startsWith(nameEssence + " (")){
 								materialkey = materialkey.substring(0, materialkey.lastIndexOf("/")) + ")";
 								qty = (Integer)o;
 								int flag = 0;
@@ -754,13 +756,13 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			int sgCount = 0;
 			int[][] shapeGroupCombos = new int[shapeGroups.size()][];
 			for (ArrayList<AbstractSpellPart> shapeGroup : shapeGroups){
-				sb.append("Shape Group " + ++sgCount + "\n\n");
+				sb.append(I18n.translateToLocal("inscription_table.shape_group.name") + " " + ++sgCount + "\n\n");
 				Iterator<AbstractSpellPart> it = shapeGroup.iterator();
 				shapeGroupCombos[sgCount - 1] = SpellPartListToStringBuilder(it, sb, " -");
 				sb.append("\n");
 			}
 
-			sb.append("Combination:\n\n");
+			sb.append(I18n.translateToLocal("inscription_table.combination.name") + ":\n\n");
 			Iterator<AbstractSpellPart> it = currentRecipe.iterator();
 			int[] outputData = SpellPartListToStringBuilder(it, sb, null);
 			LogHelper.info(sb.toString());
@@ -768,7 +770,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			ArrayList<NBTTagString> pages = Story.splitStoryPartIntoPages(sb.toString());
 
 			sb = new StringBuilder();
-			sb.append("\n\nMaterials List:\n\n");
+			sb.append("\n\n" + I18n.translateToLocal("inscription_table.material_list.name") + ":\n\n");
 			for (String s : materialsList.keySet()){
 				sb.append(materialsList.get(s) + " x " + s + "\n");
 			}
@@ -776,7 +778,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			pages.addAll(Story.splitStoryPartIntoPages(sb.toString()));
 
 			sb = new StringBuilder();
-			sb.append("Affinity Breakdown:\n\n");
+			sb.append(I18n.translateToLocal("inscription_table.affinity_breakdown.name") + ":\n\n");
 			it = currentRecipe.iterator();
 			HashMap<Affinity, Integer> affinityData = new HashMap<Affinity, Integer>();
 			int cpCount = 0;

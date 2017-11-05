@@ -1,4 +1,4 @@
-﻿package am2.gui;
+package am2.gui;
 
 import static net.minecraft.client.renderer.texture.TextureMap.LOCATION_BLOCKS_TEXTURE;
 

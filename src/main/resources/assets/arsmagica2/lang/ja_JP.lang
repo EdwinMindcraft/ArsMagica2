@@ -281,9 +281,9 @@ itemGroup.am2.blocks=Ars Magica 2 ブロック
 itemGroup.am2.items=Ars Magica 2 アイテム
 
 etherium.any.name=Any
-etherium.light.name=光
-etherium.dark.name=闇
-etherium.neutral.name=中立
+etherium.light.name=ライト
+etherium.dark.name=ダーク
+etherium.neutral.name=ニュートラル
 
 enchantment.magicresist=魔法耐性
 enchantment.soulbound=ソウルバウンド
@@ -473,7 +473,7 @@ skill.arsmagica2:contingency_health.name=誘発呪文：健康
 skill.arsmagica2:contingency_damage.name=誘発呪文：負傷
 
 skill.arsmagica2:touch.name=接触呪文
-skill.arsmagica2:dig.name=ディグ 
+skill.arsmagica2:dig.name=採掘 
 skill.arsmagica2:wizards_autumn.name=魔導師の秋
 skill.arsmagica2:target_non_solid.name=非固形ブロック対象
 skill.arsmagica2:place_block.name=ブロック設置
@@ -1144,7 +1144,7 @@ compendium.contingency_death.page1=あなたは私を殺せるかもしれませ
 compendium.binding.page1=設置型ブロックからは何の効果発揮しません！結合呪文を使用すると、道具を自分自身にバインドすることができます。バインド中に一定のマナを消費し、耐久性の代わりにマナを消費させます。捨てる（デフォルト'q'）で道具をドロップすると、代わりにバインド解除されます。
 compendium.wall.page1=あなたの前に壁を作り出すことができます。壁はあなたの向きに対し垂直に存在します。壁は結界呪文と同様に機能しますが、形態は異なります。壁はまた、その効果をより迅速に発揮します。
 compendium.wave.page1=あなたの前に魔法の波を描き、その効果をその通り道にあるすべてに適用します。
-compendium.toggle.page1=あなたの呪文を連続的な発動に変更してください！あなたは一度にこの形の発動で複数の呪文を持つことができないかもしれませんが、確かにそれのためのいくつかの方法があります...
+compendium.toggle.page1=あなたの呪文を連続的な発動に変更してください！あなたはこの形態で一度に複数の呪文を持つことはできないかもしれませんが、そのためのいくつかの方法があります…
 
 #Modifiers
 
@@ -1759,6 +1759,14 @@ compendium.flicker_focus_gentle_rains.page1=このレンズに含まれる水の
 compendium.flicker_focus_natures_bounty.page1=このレンズに含まれる生命、自然、水のフリッカーは、６ブロック半径内のすべての植物がより速く成長するのを助けるために一緒に働くでしょう。これらのフリッカーの作業は、エーテリウムの有無にかかわらず近くのすべてのプラントを助けますが、エーテリウムを供給すると、彼らは仕事をより速く行うことができます。#9水のフリッカー瓶#0でこのハビタットを変更すると、#9優しい雨#0効果が適用されます。
 compendium.flicker_focus_fishing.page1=水と自然のフリッカーの組み合わせは、それらが水に住んでいる生き物を見つけることができるようになります。しかし、フリッカーが短時間で大きな距離をカバーするので、検索を維持するにはエーテリウム供給が必要です。隣接するハビタットに雷のフリッカーがいる場合は、さらに早く移動することができ、自然に魚を見つけやすくなります。そうすることで、全体的な消費エーテリウムが増加します。
 compendium.flicker_focus_fishing.page2=レンズを合わせるには、その下に 3x3 の正方形の水が必要で、少なくとも２ブロックの深さがある必要があります。可能であれば隣接するインベントリに魚を入れ、インベントリがない場合は魚をアイテムとしてドロップします。!dフリッカーが作動するためには、レッドストーン信号を供給する必要があります。
+
+#Inscription Table
+
+inscription_table.essence.name=エーテリウム
+inscription_table.shape_group.name=形態グループ
+inscription_table.combination.name=組み合わせ
+inscription_table.material_list.name=素材リスト
+inscription_table.affinity_breakdown.name=親和性
 
 ##Inscription Upgrades
 
