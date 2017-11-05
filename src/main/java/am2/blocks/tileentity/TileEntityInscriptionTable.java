@@ -72,6 +72,9 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	private String currentSpellName;
 	private boolean currentSpellIsReadOnly;
 
+	private int recipe_lines = 0;
+	private static final int MAX_RECIPE_LINES = 14;
+
 	private static final byte FULL_UPDATE = 0x1;
 	private static final byte MAKE_SPELL = 0x2;
 	private static final byte RESET_NAME = 0x4;
@@ -751,32 +754,40 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			materialsList.put(ItemDefs.spellParchment.getItemStackDisplayName(new ItemStack(ItemDefs.spellParchment)), 1);
 
 			StringBuilder sb = new StringBuilder();
+			clearRecipeLines();
 			int sgCount = 0;
 			int[][] shapeGroupCombos = new int[shapeGroups.size()][];
 			for (ArrayList<AbstractSpellPart> shapeGroup : shapeGroups){
-				sb.append("Shape Group " + ++sgCount + "\n\n");
+				sb.append("Shape Group " + ++sgCount);
+				appendRecipeNewline( sb, 2 );
 				Iterator<AbstractSpellPart> it = shapeGroup.iterator();
 				shapeGroupCombos[sgCount - 1] = SpellPartListToStringBuilder(it, sb, " -");
-				sb.append("\n");
+				appendRecipeNewline( sb, 1 );
 			}
 
-			sb.append("Combination:\n\n");
+			sb.append("Combination:");
+			appendRecipeNewline( sb, 2 );
 			Iterator<AbstractSpellPart> it = currentRecipe.iterator();
 			int[] outputData = SpellPartListToStringBuilder(it, sb, null);
 			LogHelper.info(sb.toString());
 
-			ArrayList<NBTTagString> pages = Story.splitStoryPartIntoPages(sb.toString());
+			ArrayList<NBTTagString> pages = splitRecipeTextIntoPages(sb.toString());
 
 			sb = new StringBuilder();
-			sb.append("\n\nMaterials List:\n\n");
+			clearRecipeLines();
+			sb.append("Materials List:");
+			appendRecipeNewline( sb, 2 );
 			for (String s : materialsList.keySet()){
-				sb.append(materialsList.get(s) + " x " + s + "\n");
+				sb.append(materialsList.get(s) + " x " + s);
+				appendRecipeNewline( sb, 1 );
 			}
 
-			pages.addAll(Story.splitStoryPartIntoPages(sb.toString()));
+			pages.addAll(splitRecipeTextIntoPages(sb.toString()));
 
 			sb = new StringBuilder();
-			sb.append("Affinity Breakdown:\n\n");
+			clearRecipeLines();
+			sb.append("Affinity Breakdown:");
+			appendRecipeNewline( sb, 2 );
 			it = currentRecipe.iterator();
 			HashMap<Affinity, Integer> affinityData = new HashMap<Affinity, Integer>();
 			int cpCount = 0;
@@ -800,9 +811,9 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			for (Affinity aff : sorted.keySet()){
 				float pct = (float)sorted.get(aff) / (float)cpCount * 100f;
 				sb.append(String.format("%s: %.2f%%", aff.getLocalizedName(), pct));
-				sb.append("\n");
+				appendRecipeNewline( sb, 1 );
 			}
-			pages.addAll(Story.splitStoryPartIntoPages(sb.toString()));
+			pages.addAll(splitRecipeTextIntoPages(sb.toString()));
 			Story.WritePartToNBT(bookstack.getTagCompound(), pages);
 	
 			bookstack = Story.finalizeStory(bookstack, title, player.getName());
@@ -847,14 +858,15 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			String displayName = SpellRegistry.getSkillFromPart(part).getName();
 
 			if (prefix != null){
-				sb.append(prefix + displayName + "\n");
+				sb.append(prefix + displayName);
 			}else{
 				if (part instanceof SpellShape){
-					sb.append(displayName + "\n");
+					sb.append(displayName);
 				}else{
-					sb.append("-" + displayName + "\n");
+					sb.append("-" + displayName);
 				}
 			}
+			appendRecipeNewline( sb, 1 );
 
 			outputCombo.add(ArsMagicaAPI.getSkillRegistry().getId(part.getRegistryName()));
 		}
@@ -866,6 +878,44 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 		}
 
 		return outputData;
+	}
+
+	// Reset # of lines of recipe text.
+	private void clearRecipeLines(){
+		this.recipe_lines = 0;
+	}
+
+	// Append newline, or append newpage if it needs.
+	private void appendRecipeNewline( StringBuilder sb, int n ){
+		for( int i = 0; i < n; ++i ){
+			this.recipe_lines++;
+			if( this.recipe_lines >= MAX_RECIPE_LINES )
+			{	// Change page
+				sb.append( Story.newpageMark );
+				this.recipe_lines = 0;
+			}
+			else
+			{
+				sb.append("\n");
+			}
+		}
+	}
+
+	public static ArrayList<NBTTagString> splitRecipeTextIntoPages(String text){
+		ArrayList<NBTTagString> parts = new ArrayList<NBTTagString>();
+		text = text.trim();
+		while (text.contains(Story.newpageMark)){
+			int idx = text.indexOf(Story.newpageMark);
+			String preNewPage = text.substring(0, idx);
+			text = text.substring(idx + Story.newpageMark.length());
+			while (preNewPage.endsWith("\n")) preNewPage = preNewPage.substring(0, preNewPage.lastIndexOf('\n'));
+			parts.add(new NBTTagString(preNewPage));
+		}
+		if (text.length() > 0){
+				while (text.endsWith("\n")) text = text.substring(0, text.lastIndexOf('\n'));
+			parts.add(new NBTTagString(text));
+		}
+		return parts;
 	}
 
 	public void clearCurrentRecipe(){

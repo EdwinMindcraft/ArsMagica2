@@ -19,6 +19,7 @@ import net.minecraft.nbt.NBTTagString;
 
 
 public class Story{
+	public static final String newpageMark = "<newpage>";
 	private final String resourceName;
 	private short parts;
 	private String title;
@@ -202,10 +203,10 @@ public class Story{
 
 		for (String word : words){
 			//special commands
-			if (word.contains("<newpage>")){
-				int idx = word.indexOf("<newpage>");
+			if (word.contains(newpageMark)){
+				int idx = word.indexOf(newpageMark);
 				String preNewPage = word.substring(0, idx);
-				String postNewPage = word.substring(idx + "<newpage>".length());
+				String postNewPage = word.substring(idx + newpageMark.length());
 				while (preNewPage.endsWith("\n")) preNewPage = preNewPage.substring(0, preNewPage.lastIndexOf('\n'));
 				if (getStringOverallLength(currentPage + preNewPage) > 256){
 					parts.add(new NBTTagString(currentPage));
