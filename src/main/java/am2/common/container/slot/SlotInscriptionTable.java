@@ -3,7 +3,6 @@ package am2.common.container.slot;
 import am2.common.blocks.tileentity.TileEntityInscriptionTable;
 import am2.common.defs.ItemDefs;
 import am2.common.items.ItemSpellBase;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Slot;
@@ -55,7 +54,8 @@ public class SlotInscriptionTable extends Slot{
 	public void putStack(ItemStack stack){
 		if (stack != null && stack.getItem() == Items.WRITABLE_BOOK){
 			stack.setItem(Items.WRITTEN_BOOK);
-			stack.setStackDisplayName(I18n.format("am2.tooltip.unfinishedSpellRecipe"));
+			// TODO: localize
+			stack.setStackDisplayName("Unfinished Spell Recipe");
 		}
 		super.putStack(stack);
 	}
