@@ -24,6 +24,7 @@ import static am2.common.defs.IDDefs.GUI_SPELL_BOOK;
 import static am2.common.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
 import static am2.common.defs.IDDefs.GUI_SPELL_SEALED_DOOR;
 import static am2.common.defs.IDDefs.GUI_SUMMONER;
+import static am2.common.defs.IDDefs.GUI_SPELL_RECIPE;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -277,6 +278,7 @@ public class CommonProxy implements IGuiHandler{
 			}
 			ItemEssenceBag essenceBag = (ItemEssenceBag)bagStack.getItem();
 			return new ContainerEssenceBag(player.inventory, player.getHeldItemMainhand(), essenceBag.ConvertToInventory(bagStack));
+		case GUI_SPELL_RECIPE: return null;
 		}
 		return null;
 	}
