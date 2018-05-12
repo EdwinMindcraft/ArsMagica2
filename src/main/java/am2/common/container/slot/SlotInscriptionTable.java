@@ -54,7 +54,7 @@ public class SlotInscriptionTable extends Slot{
 	public void putStack(ItemStack stack){
 		if (stack != null && stack.getItem() == Items.WRITABLE_BOOK){
 			stack.setItem(Items.WRITTEN_BOOK);
-			// TODO: localize
+			// TODO: localize (am2.tooltip.unfinishedSpellRecipe)
 			stack.setStackDisplayName("Unfinished Spell Recipe");
 		}
 		super.putStack(stack);
