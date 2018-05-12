@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -23,10 +24,11 @@ public class ItemSpellRecipe extends ItemArsMagica{
 		this.setMaxStackSize(1);
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	@SideOnly(Side.CLIENT)
-	public String getItemStackDisplayName(ItemStack par1ItemStack){
-		return "Рецепт заклинания";
+	public String getItemStackDisplayName(ItemStack stack){
+		return I18n.format("am2.tooltip.unfinishedSpellRecipe");
 	}
 	
 	@Override
@@ -46,7 +48,7 @@ public class ItemSpellRecipe extends ItemArsMagica{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> info, boolean advanced){
-		info.add("Какое-то описание");
+		//info.add("Какое-то описание");
 	}
 
 	@Override

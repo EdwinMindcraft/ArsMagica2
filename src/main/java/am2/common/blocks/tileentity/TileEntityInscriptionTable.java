@@ -667,7 +667,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 	}
 
 	public ItemStack writeRecipeAndDataToBook(ItemStack bookstack, EntityPlayer player, String title){
-		if (bookstack.getItem() == Items.WRITTEN_BOOK && this.currentRecipe != null){
+		if (bookstack.getItem() == ItemDefs.spellRecipe && this.currentRecipe != null){
 			if (!this.currentRecipeIsValid().valid)
 				return bookstack;
 
@@ -678,7 +678,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 
 			LinkedHashMap<String, Integer> materialsList = new LinkedHashMap<String, Integer>();
 
-			materialsList.put(ItemDefs.blankRune.getItemStackDisplayName(new ItemStack(ItemDefs.blankRune)), 1);
+			materialsList.put(ItemDefs.blankRune.getUnlocalizedName(new ItemStack(ItemDefs.blankRune)) + ".name", 1);
 
 			ArrayList<ItemStack> componentRecipeList = new ArrayList<ItemStack>();
 			ArrayList<AbstractSpellPart> allRecipeItems = new ArrayList<AbstractSpellPart>();
@@ -712,14 +712,14 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 					int qty = 1;
 					ItemStack recipeStack = null;
 					if (o instanceof ItemStack){
-						materialkey = ((ItemStack)o).getDisplayName();
+						materialkey = ((ItemStack)o).getUnlocalizedName() + ".name";
 						recipeStack = (ItemStack)o;
 					}else if (o instanceof Item){
 						recipeStack = new ItemStack((Item)o);
-						materialkey = ((Item)o).getItemStackDisplayName(new ItemStack((Item)o));
+						materialkey = ((Item)o).getUnlocalizedName(new ItemStack((Item)o)) + ".name";
 					}else if (o instanceof Block){
 						recipeStack = new ItemStack((Block)o);
-						materialkey = ((Block)o).getLocalizedName();
+						materialkey = ((Block)o).getUnlocalizedName() + ".name";
 					}else if (o instanceof String){
 						if (((String)o).startsWith("E:")){
 							int[] ids = RecipeUtils.ParseEssenceIDs((String)o);
@@ -766,7 +766,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				}
 			}
 
-			materialsList.put(ItemDefs.spellParchment.getItemStackDisplayName(new ItemStack(ItemDefs.spellParchment)), 1);
+			materialsList.put(ItemDefs.spellParchment.getUnlocalizedName(new ItemStack(ItemDefs.spellParchment)) + ".name", 1);
 
 			StringBuilder sb = new StringBuilder();
 			int sgCount = 0;
@@ -817,7 +817,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			sorted.putAll(affinityData);
 			for (Affinity aff : sorted.keySet()){
 				float pct = (float)sorted.get(aff) / (float)cpCount * 100f;
-				sb.append(String.format("%s: %.2f%%", aff.getLocalizedName(), pct));
+				sb.append(String.format("%s: %.2f%%", aff.getUnlocalisedName(), pct));
 				sb.append("\n");
 			}
 			pages.addAll(Story.splitStoryPartIntoPages(sb.toString()));

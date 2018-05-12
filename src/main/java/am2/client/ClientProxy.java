@@ -79,11 +79,7 @@ import am2.common.defs.EntityManager;
 import am2.common.defs.ItemDefs;
 import am2.common.extensions.RiftStorage;
 import am2.common.handler.BakingHandler;
-import am2.common.items.ItemEssenceBag;
-import am2.common.items.ItemKeystone;
-import am2.common.items.ItemRuneBag;
-import am2.common.items.ItemSpellBase;
-import am2.common.items.ItemSpellBook;
+import am2.common.items.*;
 import am2.common.packet.AMNetHandler;
 import am2.common.power.PowerNodeEntry;
 import am2.common.power.PowerTypes;
@@ -177,7 +173,12 @@ public class ClientProxy extends CommonProxy {
 			}
 			ItemEssenceBag essenceBag = (ItemEssenceBag)bagStack.getItem();
 			return new GuiEssenceBag(player.inventory, player.getHeldItemMainhand(), essenceBag.ConvertToInventory(bagStack));
-		case GUI_SPELL_RECIPE: return new GuiSpellRecipe(player);
+		case GUI_SPELL_RECIPE:
+			ItemStack recipeStack = player.getHeldItemMainhand();
+			if (recipeStack.getItem() == null || !(recipeStack.getItem() instanceof ItemSpellRecipe))
+				return null;
+
+			return new GuiSpellRecipe(player, recipeStack);
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}

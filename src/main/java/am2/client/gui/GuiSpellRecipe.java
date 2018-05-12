@@ -1,46 +1,56 @@
 package am2.client.gui;
 
-import am2.client.gui.controls.GuiButtonVariableDims;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 
 public class GuiSpellRecipe extends GuiScreen{
-
-	private int page = 0;
-	private int numPages = 0;
-	private int curIndex = 0;
-	private String curName = "";
-
-	private GuiButtonVariableDims btnNext;
-	private GuiButtonVariableDims btnPrev;
-	private GuiButtonVariableDims btnRandomName;
-	private GuiTextField spellName;
-
-	private int xSize, ySize;
-
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/SpellRecipe.png");
 
-	public GuiSpellRecipe(EntityPlayer player){
+	private final ItemStack recipeStack;
+	private final int xSize, ySize;
+	private String spellName;
+	private int spellNameWidth;
+
+//	private int page = 0;
+//	private int numPages = 0;
+//	private int curIndex = 0;
+//	private String curName = "";
+//
+//	private GuiButtonVariableDims btnNext;
+//	private GuiButtonVariableDims btnPrev;
+//	private GuiButtonVariableDims btnRandomName;
+//	private GuiTextField spellName;
+
+	public GuiSpellRecipe(EntityPlayer player, ItemStack recipeStack){
+		this.recipeStack = recipeStack;
 		this.xSize = 256;
 		this.ySize = 158;
+		this.spellName = recipeStack.getDisplayName();
+
+		if (recipeStack.hasTagCompound()){
+			NBTTagCompound compound = recipeStack.getTagCompound();
+
+		}
 	}
 
 	@Override
-	protected void keyTyped(char par1, int par2) throws IOException{
-		if (spellName.isFocused()){
-			if (spellName.textboxKeyTyped(par1, par2)){
+	protected void keyTyped(char typedChar, int keyCode) throws IOException{
+		/*if (spellName.isFocused()){
+			if (spellName.textboxKeyTyped(typedChar, keyCode)){
 				this.curName = spellName.getText();
-				//((ContainerSpellCustomization)this.inventorySlots).setNameAndIndex(curName, curIndex);
+				((ContainerSpellCustomization)this.inventorySlots).setNameAndIndex(curName, curIndex);
 			}
 		}else{
-			super.keyTyped(par1, par2);
-		}
+			super.keyTyped(typedChar, keyCode);
+		}*/
+		super.keyTyped(typedChar, keyCode);
 	}
 
 	@Override
@@ -89,16 +99,18 @@ public class GuiSpellRecipe extends GuiScreen{
 	public void initGui(){
 		super.initGui();
 
-		int xMid = (width - xSize) / 2;
-		int yMid = (height - ySize) / 2;
+		int xMin = (width - xSize) / 2;
+		int yMin = (height - ySize) / 2;
 
-		spellName = new GuiTextField(0, fontRendererObj, xMid + 8, yMid + 8, xSize - 16, 16);
-		spellName.setText("test");
+		spellNameWidth = fontRendererObj.getStringWidth(spellName);
+
+//		spellName = new GuiTextField(0, fontRendererObj, xMin + 8, yMin + 8, xSize - 16, 16);
+//		spellName.setText("test");
 
 		/*if (ArsMagica2.config.suggestSpellNames())
-			spellName = new GuiTextField(0, fontRendererObj, xMid + 8, yMid + 8, xSize - 36, 16);
+			spellName = new GuiTextField(0, fontRendererObj, xMin + 8, yMin + 8, xSize - 36, 16);
 		else
-			spellName = new GuiTextField(0, fontRendererObj, xMid + 8, yMid + 8, xSize - 16, 16);
+			spellName = new GuiTextField(0, fontRendererObj, xMin + 8, yMin + 8, xSize - 16, 16);
 
 		String suggestion = ((ContainerSpellCustomization)this.inventorySlots).getInitialSuggestedName();
 		spellName.setText(suggestion);
@@ -108,10 +120,10 @@ public class GuiSpellRecipe extends GuiScreen{
 		}
 
 
-		btnPrev = new GuiButtonVariableDims(0, xMid + 8, yMid + 26, I18n.format("am2.gui.prev")).setDimensions(48, 20);
-		btnNext = new GuiButtonVariableDims(1, xMid + xSize - 56, yMid + 26, I18n.format("am2.gui.next")).setDimensions(48, 20);
+		btnPrev = new GuiButtonVariableDims(0, xMin + 8, yMin + 26, I18n.format("am2.gui.prev")).setDimensions(48, 20);
+		btnNext = new GuiButtonVariableDims(1, xMin + xSize - 56, yMin + 26, I18n.format("am2.gui.next")).setDimensions(48, 20);
 
-		btnRandomName = new GuiButtonVariableDims(2, xMid + xSize - 24, yMid + 5, "???");
+		btnRandomName = new GuiButtonVariableDims(2, xMin + xSize - 24, yMin + 5, "???");
 		btnRandomName.setDimensions(20, 20);
 
 		this.buttonList.add(btnPrev);
@@ -120,8 +132,8 @@ public class GuiSpellRecipe extends GuiScreen{
 		if (ArsMagica2.config.suggestSpellNames())
 			this.buttonList.add(btnRandomName);
 
-		int IIcon_start_x = xMid + 12;
-		int IIcon_start_y = yMid + 50;
+		int IIcon_start_x = xMin + 12;
+		int IIcon_start_y = yMin + 50;
 
 		int btnX = IIcon_start_x;
 		int btnY = IIcon_start_y;
@@ -137,10 +149,10 @@ public class GuiSpellRecipe extends GuiScreen{
 			}
 			this.buttonList.add(spellButton);
 			btnX += 14;
-			if (btnX > (xMid + xSize) - 15){
+			if (btnX > (xMin + xSize) - 15){
 				btnX = IIcon_start_x;
 				btnY += 14;
-				if (btnY > (yMid + ySize - 10)){
+				if (btnY > (yMin + ySize - 10)){
 					btnY = IIcon_start_y;
 					curPage++;
 					}
@@ -153,18 +165,22 @@ public class GuiSpellRecipe extends GuiScreen{
 	@Override
 	protected void mouseClicked(int x, int y, int mouseButton) throws IOException{
 		super.mouseClicked(x, y, mouseButton);
-		spellName.mouseClicked(x, y, mouseButton);
+//		spellName.mouseClicked(x, y, mouseButton);
 	}
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks){
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(background);
+		int xMin = (width - xSize) / 2;
+		int yMin = (height - ySize) / 2;
 
-		int xMid = (width - xSize) / 2;
-		int yMid = (height - ySize) / 2;
-		drawTexturedModalRect(xMid, yMid, 0, 0, xSize, ySize);
-		spellName.drawTextBox();
+
+		GlStateManager.color(1.0f, 1.0f, 1.0f);
+		mc.renderEngine.bindTexture(background);
+		this.drawTexturedModalRect(xMin, yMin, 0, 0, xSize, ySize);
+
+		fontRendererObj.drawString(spellName, xMin + 64 - spellNameWidth / 2, yMin + 8, 0);
+
+//		spellName.drawTextBox();
 	}
 
 }
