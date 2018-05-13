@@ -1,16 +1,25 @@
 package am2.client.gui;
 
+import am2.client.gui.controls.GuiButtonVariableDims;
+import am2.client.gui.widgets.GuiScreenWidget;
+import am2.common.defs.ItemDefs;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class GuiSpellRecipe extends GuiScreen{
+public class GuiSpellRecipe extends GuiScreenWidget{
 	private static final ResourceLocation background = new ResourceLocation("arsmagica2", "textures/gui/SpellRecipe.png");
 
 	private final ItemStack recipeStack;
@@ -18,15 +27,11 @@ public class GuiSpellRecipe extends GuiScreen{
 	private String spellName;
 	private int spellNameWidth;
 
-//	private int page = 0;
-//	private int numPages = 0;
-//	private int curIndex = 0;
-//	private String curName = "";
-//
-//	private GuiButtonVariableDims btnNext;
-//	private GuiButtonVariableDims btnPrev;
-//	private GuiButtonVariableDims btnRandomName;
-//	private GuiTextField spellName;
+	private GuiButtonVariableDims btnUp;
+	private GuiButtonVariableDims btnDown;
+	private static final int MAX_INGRIDIENTS_VISIBLE = 6;
+	private int ingridientsOffset;
+	private List<SpellRecipeIngridient> ingridients;
 
 	public GuiSpellRecipe(EntityPlayer player, ItemStack recipeStack){
 		this.recipeStack = recipeStack;
@@ -34,65 +39,22 @@ public class GuiSpellRecipe extends GuiScreen{
 		this.ySize = 158;
 		this.spellName = recipeStack.getDisplayName();
 
-		if (recipeStack.hasTagCompound()){
+		this.ingridientsOffset = 0;
+		ingridients = new ArrayList<>();
+		for (int i = 0; i < 5; i++){
+			ingridients.add(new IngridientItemStack(new ItemStack(ItemDefs.rune), "Пустая руна" + i));
+			ingridients.add(new IngridientItemStack(new ItemStack(ItemDefs.spellParchment), "Пергамент заклинания" + i));
+		}
+
+		/*if (recipeStack.hasTagCompound()){
 			NBTTagCompound compound = recipeStack.getTagCompound();
 
-		}
+		}*/
 	}
 
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException{
-		/*if (spellName.isFocused()){
-			if (spellName.textboxKeyTyped(typedChar, keyCode)){
-				this.curName = spellName.getText();
-				((ContainerSpellCustomization)this.inventorySlots).setNameAndIndex(curName, curIndex);
-			}
-		}else{
-			super.keyTyped(typedChar, keyCode);
-		}*/
 		super.keyTyped(typedChar, keyCode);
-	}
-
-	@Override
-	protected void actionPerformed(GuiButton par1GuiButton) throws IOException{
-		super.actionPerformed(par1GuiButton);
-
-		/*if (par1GuiButton.id == btnPrev.id){
-			if (page > 0){
-				page--;
-				for (Object btn : this.buttonList){
-					if (btn instanceof GuiSpellImageButton){
-						if (((GuiSpellImageButton)btn).getPage() == page) ((GuiSpellImageButton)btn).visible = true;
-						else ((GuiSpellImageButton)btn).visible = false;
-					}
-				}
-			}
-		}else if (par1GuiButton.id == btnNext.id){
-			if (page < numPages){
-				page++;
-				for (Object btn : this.buttonList){
-					if (btn instanceof GuiSpellImageButton){
-						if (((GuiSpellImageButton)btn).getPage() == page) ((GuiSpellImageButton)btn).visible = true;
-						else ((GuiSpellImageButton)btn).visible = false;
-					}
-				}
-			}
-		}else if (par1GuiButton.id == btnRandomName.id){
-			spellName.setText(SeventhSanctum.instance.getNextSuggestion());
-			curName = spellName.getText();
-			((ContainerSpellCustomization)this.inventorySlots).setNameAndIndex(curName, curIndex);
-		}
-
-		if (par1GuiButton instanceof GuiSpellImageButton){
-			this.curIndex = ((GuiSpellImageButton)par1GuiButton).getIndex();
-			((ContainerSpellCustomization)this.inventorySlots).setNameAndIndex(curName, curIndex);
-			for (Object btn : this.buttonList){
-				if (btn instanceof GuiSpellImageButton){
-					((GuiSpellImageButton)btn).setSelected(false);
-				}
-			}
-			((GuiSpellImageButton)par1GuiButton).setSelected(true);
-		}*/
 	}
 
 	@Override
@@ -104,62 +66,10 @@ public class GuiSpellRecipe extends GuiScreen{
 
 		spellNameWidth = fontRendererObj.getStringWidth(spellName);
 
-//		spellName = new GuiTextField(0, fontRendererObj, xMin + 8, yMin + 8, xSize - 16, 16);
-//		spellName.setText("test");
-
-		/*if (ArsMagica2.config.suggestSpellNames())
-			spellName = new GuiTextField(0, fontRendererObj, xMin + 8, yMin + 8, xSize - 36, 16);
-		else
-			spellName = new GuiTextField(0, fontRendererObj, xMin + 8, yMin + 8, xSize - 16, 16);
-
-		String suggestion = ((ContainerSpellCustomization)this.inventorySlots).getInitialSuggestedName();
-		spellName.setText(suggestion);
-		if (!suggestion.equals("")){
-			curName = suggestion;
-			((ContainerSpellCustomization)this.inventorySlots).setNameAndIndex(curName, curIndex);
-		}
-
-
-		btnPrev = new GuiButtonVariableDims(0, xMin + 8, yMin + 26, I18n.format("am2.gui.prev")).setDimensions(48, 20);
-		btnNext = new GuiButtonVariableDims(1, xMin + xSize - 56, yMin + 26, I18n.format("am2.gui.next")).setDimensions(48, 20);
-
-		btnRandomName = new GuiButtonVariableDims(2, xMin + xSize - 24, yMin + 5, "???");
-		btnRandomName.setDimensions(20, 20);
-
-		this.buttonList.add(btnPrev);
-		this.buttonList.add(btnNext);
-
-		if (ArsMagica2.config.suggestSpellNames())
-			this.buttonList.add(btnRandomName);
-
-		int IIcon_start_x = xMin + 12;
-		int IIcon_start_y = yMin + 50;
-
-		int btnX = IIcon_start_x;
-		int btnY = IIcon_start_y;
-		int id = 3;
-		int IIconCount = 0;
-		int curPage = 0;
-
-		for (ResourceLocation location : ArsMagicaModelLoader.spellIcons){
-			TextureAtlasSprite icon = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
-			GuiSpellImageButton spellButton = new GuiSpellImageButton(id++, btnX, btnY, icon, IIconCount++, curPage);
-			if (curPage != 0){
-				spellButton.visible = false;
-			}
-			this.buttonList.add(spellButton);
-			btnX += 14;
-			if (btnX > (xMin + xSize) - 15){
-				btnX = IIcon_start_x;
-				btnY += 14;
-				if (btnY > (yMin + ySize - 10)){
-					btnY = IIcon_start_y;
-					curPage++;
-					}
-			}
-		}
-
-		this.numPages = curPage;*/
+		btnUp = new GuiButtonVariableDims(0, xMin + 177, yMin + 5, "/\\").setDimensions(20, 10);
+		btnDown = new GuiButtonVariableDims(1, xMin + 177, yMin + 140, "\\/").setDimensions(20, 10);
+		this.buttonList.add(btnUp);
+		this.buttonList.add(btnDown);
 	}
 
 	@Override
@@ -169,10 +79,26 @@ public class GuiSpellRecipe extends GuiScreen{
 	}
 
 	@Override
+	protected void actionPerformed(GuiButton button) throws IOException{
+		super.actionPerformed(button);
+
+		if (button.id == btnUp.id){
+			ingridientsOffset--;
+			if (ingridientsOffset < 0){
+				ingridientsOffset = 0;
+			}
+		} else if (button.id == btnDown.id) {
+			ingridientsOffset++;
+			if (ingridientsOffset >= ingridients.size()) {
+				ingridientsOffset = ingridients.size() - 1;
+			}
+		}
+	}
+
+	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks){
 		int xMin = (width - xSize) / 2;
 		int yMin = (height - ySize) / 2;
-
 
 		GlStateManager.color(1.0f, 1.0f, 1.0f);
 		mc.renderEngine.bindTexture(background);
@@ -180,7 +106,49 @@ public class GuiSpellRecipe extends GuiScreen{
 
 		fontRendererObj.drawString(spellName, xMin + 64 - spellNameWidth / 2, yMin + 8, 0);
 
+		int max = Math.min(ingridients.size(), ingridientsOffset + MAX_INGRIDIENTS_VISIBLE);
+		for (int i = ingridientsOffset; i < max; i++) {
+			mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+			this.zLevel = 200.0F;
+			this.itemRender.zLevel = 200.0F;
+			this.ingridients.get(i).draw(itemRender, fontRendererObj, xMin + 135, yMin + 18 + (i - ingridientsOffset) * 20);
+			this.zLevel = 0.0F;
+			this.itemRender.zLevel = 0.0F;
+		}
+
+		super.drawScreen(mouseX, mouseY, partialTicks);
+
 //		spellName.drawTextBox();
+	}
+
+	/**
+	 * Ингридиент крафта заклинания
+	 * Может быть как эссенцией, так и предметом
+	 */
+	interface SpellRecipeIngridient{
+		void draw(RenderItem renderItem, FontRenderer fontRenderer, int x, int y);
+	}
+
+	/**
+	 * Ингридиент заклинания, представленный предметом или блоком
+	 */
+	class IngridientItemStack implements SpellRecipeIngridient{
+		private final ItemStack itemStack;
+		private final String name, size;
+
+		public IngridientItemStack(ItemStack itemStack, String name){
+			this.itemStack = itemStack;
+			this.name = name;
+			this.size = "x" + itemStack.stackSize;
+		}
+
+		@Override
+		public void draw(RenderItem itemRenderer, FontRenderer fontRenderer, int x, int y){
+			GlStateManager.translate(0.0F, 0.0F, 32.0F);
+			itemRenderer.renderItemIntoGUI(this.itemStack, x, y);
+			fontRenderer.drawString(this.name, x + 18, y, 0);
+			fontRenderer.drawString(this.size, x + 18, y + 8, 0);
+		}
 	}
 
 }
