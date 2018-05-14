@@ -3,6 +3,8 @@ package am2.client.gui.widgets;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
@@ -12,11 +14,15 @@ import java.util.List;
 /**
  * Оболочка для взаимодействия виджетов с интерфейсом
  */
+@SideOnly(Side.CLIENT)
 public abstract class GuiScreenWidget extends GuiScreen{
 	protected List<Widget> widgets;
+	protected final int xSize, ySize;
 
-	public GuiScreenWidget(){
+	public GuiScreenWidget(int xSize, int ySize){
 		this.widgets = new ArrayList<>();
+		this.xSize = xSize;
+		this.ySize = ySize;
 	}
 
 	@Override
@@ -24,8 +30,8 @@ public abstract class GuiScreenWidget extends GuiScreen{
 		super.handleMouseInput();
 		int dWheel = Mouse.getEventDWheel();
 		if (dWheel != 0){
-			int x = Mouse.getEventX() * this.width / this.mc.displayWidth;
-			int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
+			int x = Mouse.getEventX() * this.width / this.mc.displayWidth - (width - xSize) / 2;
+			int y = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1 - (height - ySize) / 2;
 			for (Widget widget : widgets){
 				if (widget.intersects(x, y)
 						&& widget.wheel(x - widget.x, y - widget.y, dWheel))
@@ -35,14 +41,26 @@ public abstract class GuiScreenWidget extends GuiScreen{
 	}
 	
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException{
-		//Не будем поддерживать стандартные кнопки
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton){
+		//Не будем поддерживать стандартные кнопки и метки
 		//super.mouseClicked(mouseX, mouseY, mouseButton);
+		
+		mouseX -= (width - xSize) / 2;
+		mouseY -= (height - ySize) / 2;
 		
 		for (Widget widget : widgets) {
 			if (widget.intersects(mouseX, mouseY)
 					&& widget.click(mouseX - widget.x, mouseY - widget.y, mouseButton))
 				break;
+		}
+	}
+	
+	protected void draw(int xMin, int yMin, int mouseX, int mouseY){
+		//Опять же, забиваем на стандартные кнопки и метки
+		//super.drawScreen(mouseX, mouseY, partialTicks);
+		
+		for (Widget widget : widgets) {
+			widget.draw(this, xMin, yMin, mouseX, mouseY);
 		}
 	}
 	

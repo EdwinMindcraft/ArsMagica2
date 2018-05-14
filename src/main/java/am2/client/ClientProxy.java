@@ -178,7 +178,7 @@ public class ClientProxy extends CommonProxy {
 			if (recipeStack.getItem() == null || !(recipeStack.getItem() instanceof ItemSpellRecipe))
 				return null;
 
-			return new GuiSpellRecipe(player, recipeStack);
+			return new GuiSpellRecipe(recipeStack);
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}

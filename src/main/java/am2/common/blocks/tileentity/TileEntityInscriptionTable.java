@@ -38,6 +38,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.network.NetworkManager;
@@ -665,7 +666,14 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			player.inventory.addItemStackToInventory(stack);
 		}
 	}
-
+	
+	private String getFullItemName(Item item) {
+		return "I" + Item.REGISTRY.getNameForObject(item).toString();
+	}
+	private String getFullBlockName(Block block) {
+		return "B" + Block.REGISTRY.getNameForObject(block).toString();
+	}
+	
 	public ItemStack writeRecipeAndDataToBook(ItemStack bookstack, EntityPlayer player, String title){
 		if (bookstack.getItem() == ItemDefs.spellRecipe && this.currentRecipe != null){
 			if (!this.currentRecipeIsValid().valid)
@@ -677,8 +685,8 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				return bookstack;
 
 			LinkedHashMap<String, Integer> materialsList = new LinkedHashMap<String, Integer>();
-
-			materialsList.put(ItemDefs.blankRune.getUnlocalizedName(new ItemStack(ItemDefs.blankRune)) + ".name", 1);
+			
+			materialsList.put(getFullItemName(ItemDefs.blankRune), 1);
 
 			ArrayList<ItemStack> componentRecipeList = new ArrayList<ItemStack>();
 			ArrayList<AbstractSpellPart> allRecipeItems = new ArrayList<AbstractSpellPart>();
@@ -712,31 +720,31 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 					int qty = 1;
 					ItemStack recipeStack = null;
 					if (o instanceof ItemStack){
-						materialkey = ((ItemStack)o).getUnlocalizedName() + ".name";
+						materialkey = getFullItemName(((ItemStack) o).getItem());
 						recipeStack = (ItemStack)o;
 					}else if (o instanceof Item){
 						recipeStack = new ItemStack((Item)o);
-						materialkey = ((Item)o).getUnlocalizedName(new ItemStack((Item)o)) + ".name";
+						materialkey = getFullItemName((Item) o);
 					}else if (o instanceof Block){
 						recipeStack = new ItemStack((Block)o);
-						materialkey = ((Block)o).getUnlocalizedName() + ".name";
+						materialkey = getFullBlockName((Block) o);
 					}else if (o instanceof String){
-						if (((String)o).startsWith("E:")){
+						if (((String)o).startsWith("E")){
 							int[] ids = RecipeUtils.ParseEssenceIDs((String)o);
-							materialkey = "Essence (";
+							materialkey = "E";
 							for (int powerID : ids){
 								PowerTypes type = PowerTypes.getByID(powerID);
 								materialkey += type.name() + "/";
 							}
 
-							if (materialkey.equals("Essence (")){
+							if (materialkey.equals("E")){
 								++i;
 								continue;
 							}
 
 							o = recipeItems[++i];
-							if (materialkey.startsWith("Essence (")){
-								materialkey = materialkey.substring(0, materialkey.lastIndexOf("/")) + ")";
+							if (materialkey.startsWith("E")){
+								materialkey = materialkey.substring(0, materialkey.lastIndexOf("/"));
 								qty = (Integer)o;
 								int flag = 0;
 								for (int f : ids){
@@ -766,8 +774,17 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				}
 			}
 
-			materialsList.put(ItemDefs.spellParchment.getUnlocalizedName(new ItemStack(ItemDefs.spellParchment)) + ".name", 1);
-
+			materialsList.put(getFullItemName(ItemDefs.spellParchment), 1);
+			
+			NBTTagList materialsNBTList = new NBTTagList();
+			for (String key : materialsList.keySet()) {
+				NBTTagCompound material = new NBTTagCompound();
+				material.setString("id", key);
+				material.setInteger("count", materialsList.get(key));
+				materialsNBTList.appendTag(material);
+			}
+			bookstack.getTagCompound().setTag("materials", materialsNBTList);
+			
 			StringBuilder sb = new StringBuilder();
 			int sgCount = 0;
 			int[][] shapeGroupCombos = new int[this.shapeGroups.size()][];

@@ -48,7 +48,10 @@ public class ItemSpellRecipe extends ItemArsMagica{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> info, boolean advanced){
-		//info.add("Какое-то описание");
+		if (itemStack.hasTagCompound()){
+			String author = itemStack.getTagCompound().getString("author");
+			info.add(I18n.format("am2.tooltip.author", author));
+		}
 	}
 
 	@Override

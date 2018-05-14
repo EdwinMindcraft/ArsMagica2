@@ -730,6 +730,7 @@ am2.tooltip.infOrbFail8=You will never speak of what you saw again.
 am2.tooltip.infOrbFail9=You're convinced the pumpkins are coming to get you.
 am2.tooltip.infOrbGreen=You have gained a §2green§f skill point!
 am2.tooltip.infOrbRed=You have gained a §4red§f skill point!
+am2.tooltip.author=Author: %s
 am2.tooltip.journalOwner2=Owned by %s
 am2.tooltip.journalOwner=The inscription on the first page says:
 am2.tooltip.journalUse=Right Click to retrieve XP, Sneak+Right Click to store XP.

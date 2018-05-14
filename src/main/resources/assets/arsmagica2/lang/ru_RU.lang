@@ -26,7 +26,7 @@ item.arsmagica2:ore.bluetopaz.name=Синий топаз
 item.arsmagica2:ore.arcaneash.name=Тайная пыль
 item.arsmagica2:ore.arcane_compound.name=Тайная смесь
 item.arsmagica2:spell_parchment.name=Пергамент заклинания
-item.arsmagica2:etherium.name=Этериум
+item.arsmagica2:etherium.name=Эфир
 
 item.arsmagica2:bindingCatalyst.name=Катализатор связывания
 item.arsmagica2:bindingCatalystAxe.name=: Топор
@@ -746,6 +746,7 @@ am2.tooltip.infOrbFail8=Вы никогда никому не скажете, ч
 am2.tooltip.infOrbFail9=Вы убеждены, что тыквы придут за вами.
 am2.tooltip.infOrbGreen=Вы получили §2зеленое§f очко исследований!
 am2.tooltip.infOrbRed=Вы получили §4красное§f очко исследований!
+am2.tooltip.author=Автор: %s
 am2.tooltip.journalOwner2=Владелец: %s
 am2.tooltip.journalOwner=Инструкция на первой странице гласит:
 am2.tooltip.journalUse=ПКМ для получения опыта и Shift + ПКМ для сохранения опыта
