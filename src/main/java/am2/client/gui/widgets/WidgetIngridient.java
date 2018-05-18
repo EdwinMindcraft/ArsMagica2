@@ -44,12 +44,12 @@ public class WidgetIngridient extends Widget{
 	/**
 	 * Ингридиент-предмет/блок
 	 */
-	public WidgetIngridient(int id, ItemStack item){
+	public WidgetIngridient(int id, ItemStack item, int count){
 		super(id);
 		this.energyType = null;
 		this.item = item;
 		this.title = item.getDisplayName();
-		this.size = "x" + item.stackSize;
+		this.size = "x" + count;
 		this.width = 100;
 		this.height = 20;
 	}

@@ -11,11 +11,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class SlotInscriptionTable extends Slot{
-
+	
 	public SlotInscriptionTable(TileEntityInscriptionTable par1iInventory, int par2, int par3, int par4){
 		super(par1iInventory, par2, par3, par4);
 	}
-
+	
 	@Override
 	public boolean isItemValid(ItemStack stack){
 		if (stack == null || stack.getItem() == null){
@@ -29,7 +29,7 @@ public class SlotInscriptionTable extends Slot{
 			return true;
 		return false;
 	}
-
+	
 	@Override
 	public void onPickupFromSlot(EntityPlayer par1EntityPlayer, ItemStack par2ItemStack){
 		if (par2ItemStack.getItem() == ItemDefs.spellRecipe)
@@ -38,7 +38,7 @@ public class SlotInscriptionTable extends Slot{
 			((TileEntityInscriptionTable)this.inventory).clearCurrentRecipe();
 		super.onPickupFromSlot(par1EntityPlayer, par2ItemStack);
 	}
-
+	
 	@Override
 	public void onSlotChanged(){
 		if (this.getStack() != null){
@@ -49,7 +49,7 @@ public class SlotInscriptionTable extends Slot{
 		}
 		super.onSlotChanged();
 	}
-
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void putStack(ItemStack stack){

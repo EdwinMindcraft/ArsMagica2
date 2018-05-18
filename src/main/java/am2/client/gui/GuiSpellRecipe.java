@@ -1,5 +1,7 @@
 package am2.client.gui;
 
+import am2.api.ArsMagicaAPI;
+import am2.api.skill.Skill;
 import am2.client.gui.controls.GuiButtonVariableDims;
 import am2.client.gui.widgets.*;
 import am2.client.gui.widgets.events.WidgetEvent;
@@ -51,30 +53,37 @@ public class GuiSpellRecipe extends GuiScreenWidget implements WidgetEventListen
 				NBTTagCompound material = materials.getCompoundTagAt(i);
 				String itemId = material.getString("id");
 				int count = material.getInteger("count");
-				if (itemId == null || itemId.length() == 0)
-					continue;
-				if (itemId.charAt(0) == 'I'){
-					ingridients.add(new WidgetIngridient(
-							10,
-							new ItemStack(
-									Item.REGISTRY.getObject(new ResourceLocation(itemId.substring(1))), count
-							)
-					));
-				}else if (itemId.charAt(0) == 'B'){
-					ingridients.add(new WidgetIngridient(
-							10,
-							new ItemStack(
-									Item.REGISTRY.getObject(new ResourceLocation(itemId.substring(1))), count
-							)
-					));
-				}else if (itemId.charAt(0) == 'E'){
+				ItemStack itemStack = ItemStack.loadItemStackFromNBT(material.getCompoundTag("item"));
+				
+				if (itemStack.getItem() == ItemDefs.etherium){
 					ingridients.add(new WidgetIngridient(
 							10,
 							itemId.substring(1),
 							count
 					));
+				}else{
+					ingridients.add(new WidgetIngridient(
+							10,
+							itemStack,
+							count
+					));
 				}
 			}
+			
+			int groupsCount = compound.getInteger("numShapeGroups");
+			List<List<Skill>> groups = new ArrayList<>();
+			for (int i = 1; i <= groupsCount; i++){
+				List<Skill> groupSkills = new ArrayList<>();
+				int[] group = compound.getIntArray("shapeGroupCombo_" + i);
+				for (int skillId : group){
+					groupSkills.add(
+							ArsMagicaAPI.getSkillRegistry().getObjectById(skillId)
+					);
+				}
+				groups.add(groupSkills);
+			}
+			
+			
 		}
 	}
 	
