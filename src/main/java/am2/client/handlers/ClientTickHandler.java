@@ -1,10 +1,6 @@
 package am2.client.handlers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import am2.ArsMagica2;
 import am2.api.extensions.ISpellCaster;
@@ -17,7 +13,10 @@ import am2.common.LogHelper;
 import am2.common.armor.ArmorHelper;
 import am2.common.armor.infusions.GenericImbuement;
 import am2.common.bosses.BossSpawnHelper;
+import am2.common.buffs.BuffEffect;
+import am2.common.defs.AMPotion;
 import am2.common.defs.ItemDefs;
+import am2.common.defs.PotionEffectsDefs;
 import am2.common.extensions.EntityExtension;
 import am2.common.items.ItemSpellBase;
 import am2.common.items.ItemSpellBook;
@@ -31,6 +30,7 @@ import am2.common.spell.component.Telekinesis;
 import am2.common.trackers.EntityItemWatcher;
 import am2.common.utils.DimensionUtilities;
 import am2.common.world.MeteorSpawnHelper;
+import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.EntityLiving;
@@ -38,6 +38,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
@@ -52,6 +53,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ClientTickHandler{
 	public static HashMap<EntityLiving, EntityLivingBase> targetsToSet = new HashMap<EntityLiving, EntityLivingBase>();
+	private final Map<Potion, BuffEffect> clientBuffs = Maps.<Potion, BuffEffect>newHashMap();
 	private int mouseWheelValue = 0;
 	private int currentSlot = -1;
 	private boolean usingItem;
@@ -330,6 +332,24 @@ public class ClientTickHandler{
 	public void onServerTick(TickEvent.ServerTickEvent event){
 		if (event.phase == TickEvent.Phase.END){
 			localServerTick_End();
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerTick(TickEvent.PlayerTickEvent event){
+		if (!event.player.worldObj.isRemote)
+			return;
+		
+		for (PotionEffect effect : event.player.getActivePotionEffects()){
+			Potion potion = effect.getPotion();
+			if (potion instanceof AMPotion){
+				BuffEffect clientBuff = clientBuffs.get(potion);
+				if (clientBuff == null) {
+					clientBuff = (BuffEffect) PotionEffectsDefs.getEffect(effect);
+					clientBuffs.put(potion, clientBuff);
+				}
+				clientBuff.performClientEffect(event.player);
+			}
 		}
 	}
 

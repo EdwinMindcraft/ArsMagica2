@@ -21,17 +21,29 @@ public class BuffEffectSwiftSwim extends BuffEffect{
 	@Override
 	public void performEffect(EntityLivingBase entityliving){
 		if (entityliving.isInWater()){
-			if (!(entityliving instanceof EntityPlayer) || !((EntityPlayer)entityliving).capabilities.isFlying){
+			if (!(entityliving instanceof EntityPlayer)){
 				entityliving.motionX *= (1.133f + 0.03 * this.getAmplifier());
 				entityliving.motionZ *= (1.133f + 0.03 * this.getAmplifier());
-
+				
 				if (entityliving.motionY > 0){
 					entityliving.motionY *= 1.134;
 				}
 			}
 		}
 	}
-
+	
+	@Override
+	public void performClientEffect(EntityPlayer entityPlayer){
+		if (entityPlayer.isInWater() && !entityPlayer.capabilities.isFlying){
+			entityPlayer.motionX *= (1.133f + 0.03 * this.getAmplifier());
+			entityPlayer.motionZ *= (1.133f + 0.03 * this.getAmplifier());
+			
+			if (entityPlayer.motionY > 0){
+				entityPlayer.motionY *= 1.134;
+			}
+		}
+	}
+	
 	@Override
 	protected String spellBuffName(){
 		return "Swift Swim";

@@ -2,9 +2,12 @@ package am2.common.buffs;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class BuffEffect extends PotionEffect{
 	protected boolean InitialApplication;
@@ -34,6 +37,14 @@ public abstract class BuffEffect extends PotionEffect{
 
 	@Override
 	public void performEffect(EntityLivingBase entityliving){
+	}
+	
+	/**
+	 * This method is called from PlayerTickEvent
+	 * to do some things, that needs client-side to work (e.g. swift swim)
+	 */
+	@SideOnly(Side.CLIENT)
+	public void performClientEffect(EntityPlayer entityPlayer){
 	}
 
 	@Override
