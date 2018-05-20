@@ -188,7 +188,8 @@ public class TileEntityLectern extends TileEntityEnchantmentTable implements ITi
 
 		validItems.add(Items.WRITTEN_BOOK);
 		validItems.add(ItemDefs.arcaneCompendium);
-
+		validItems.add(ItemDefs.spellRecipe);
+		
 //		if (Loader.isModLoaded("Thaumcraft")){
 //			ItemStack item = thaumcraft.api.ItemApi.getItem("itemThaumonomicon", 0);
 //			if (item != null){

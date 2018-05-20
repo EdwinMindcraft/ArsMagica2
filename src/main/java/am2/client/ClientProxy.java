@@ -1,30 +1,5 @@
 package am2.client;
 
-import static am2.common.defs.IDDefs.GUI_ARCANE_DECONSTRUCTOR;
-import static am2.common.defs.IDDefs.GUI_ARCANE_RECONSTRUCTOR;
-import static am2.common.defs.IDDefs.GUI_ARMOR_INFUSION;
-import static am2.common.defs.IDDefs.GUI_ASTRAL_BARRIER;
-import static am2.common.defs.IDDefs.GUI_CALEFACTOR;
-import static am2.common.defs.IDDefs.GUI_CRYSTAL_MARKER;
-import static am2.common.defs.IDDefs.GUI_ESSENCE_BAG;
-import static am2.common.defs.IDDefs.GUI_ESSENCE_REFINER;
-import static am2.common.defs.IDDefs.GUI_FLICKER_HABITAT;
-import static am2.common.defs.IDDefs.GUI_INERT_SPAWNER;
-import static am2.common.defs.IDDefs.GUI_INSCRIPTION_TABLE;
-import static am2.common.defs.IDDefs.GUI_KEYSTONE;
-import static am2.common.defs.IDDefs.GUI_KEYSTONE_CHEST;
-import static am2.common.defs.IDDefs.GUI_KEYSTONE_LOCKABLE;
-import static am2.common.defs.IDDefs.GUI_MAGICIANS_WORKBENCH;
-import static am2.common.defs.IDDefs.GUI_OBELISK;
-import static am2.common.defs.IDDefs.GUI_OCCULUS;
-import static am2.common.defs.IDDefs.GUI_RIFT;
-import static am2.common.defs.IDDefs.GUI_RUNE_BAG;
-import static am2.common.defs.IDDefs.GUI_SEER_STONE;
-import static am2.common.defs.IDDefs.GUI_SPELL_BOOK;
-import static am2.common.defs.IDDefs.GUI_SPELL_CUSTOMIZATION;
-import static am2.common.defs.IDDefs.GUI_SPELL_SEALED_DOOR;
-import static am2.common.defs.IDDefs.GUI_SUMMONER;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -57,33 +32,7 @@ import am2.client.blocks.render.TileRuneRenderer;
 import am2.client.blocks.render.TileSeerStoneRenderer;
 import am2.client.blocks.render.TileSummonerRenderer;
 import am2.client.commands.ConfigureAMUICommand;
-import am2.client.gui.AMGuiHelper;
-import am2.client.gui.AMIngameGUI;
-import am2.client.gui.GuiArcaneDeconstructor;
-import am2.client.gui.GuiArcaneReconstructor;
-import am2.client.gui.GuiArmorImbuer;
-import am2.client.gui.GuiAstralBarrier;
-import am2.client.gui.GuiCalefactor;
-import am2.client.gui.GuiCrystalMarker;
-import am2.client.gui.GuiEssenceBag;
-import am2.client.gui.GuiEssenceRefiner;
-import am2.client.gui.GuiFlickerHabitat;
-import am2.client.gui.GuiInertSpawner;
-import am2.client.gui.GuiInscriptionTable;
-import am2.client.gui.GuiKeystone;
-import am2.client.gui.GuiKeystoneChest;
-import am2.client.gui.GuiKeystoneLockable;
-import am2.client.gui.GuiMagiciansWorkbench;
-import am2.client.gui.GuiObelisk;
-import am2.client.gui.GuiOcculus;
-import am2.client.gui.GuiParticleEmitter;
-import am2.client.gui.GuiRiftStorage;
-import am2.client.gui.GuiRuneBag;
-import am2.client.gui.GuiSeerStone;
-import am2.client.gui.GuiSpellBook;
-import am2.client.gui.GuiSpellCustomization;
-import am2.client.gui.GuiSpellSealedDoor;
-import am2.client.gui.GuiSummoner;
+import am2.client.gui.*;
 import am2.client.handlers.ClientTickHandler;
 import am2.client.models.ArsMagicaModelLoader;
 import am2.client.models.CullfaceModelLoader;
@@ -130,11 +79,7 @@ import am2.common.defs.EntityManager;
 import am2.common.defs.ItemDefs;
 import am2.common.extensions.RiftStorage;
 import am2.common.handler.BakingHandler;
-import am2.common.items.ItemEssenceBag;
-import am2.common.items.ItemKeystone;
-import am2.common.items.ItemRuneBag;
-import am2.common.items.ItemSpellBase;
-import am2.common.items.ItemSpellBook;
+import am2.common.items.*;
 import am2.common.packet.AMNetHandler;
 import am2.common.power.PowerNodeEntry;
 import am2.common.power.PowerTypes;
@@ -159,6 +104,8 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+
+import static am2.common.defs.IDDefs.*;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -226,6 +173,12 @@ public class ClientProxy extends CommonProxy {
 			}
 			ItemEssenceBag essenceBag = (ItemEssenceBag)bagStack.getItem();
 			return new GuiEssenceBag(player.inventory, player.getHeldItemMainhand(), essenceBag.ConvertToInventory(bagStack));
+		case GUI_SPELL_RECIPE:
+			ItemStack recipeStack = player.getHeldItemMainhand();
+			if (recipeStack.getItem() == null || !(recipeStack.getItem() instanceof ItemSpellRecipe))
+				return null;
+
+			return new GuiSpellRecipe(recipeStack);
 		}
 		return super.getClientGuiElement(ID, player, world, x, y, z);
 	}

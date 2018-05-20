@@ -1,7 +1,9 @@
 package am2.common.blocks;
 
 import am2.ArsMagica2;
+import am2.client.gui.GuiSpellRecipe;
 import am2.common.blocks.tileentity.TileEntityLectern;
+import am2.common.defs.ItemDefs;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -62,7 +64,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 					te.setStack(null);
 				}
 			}else{
-				if (te.getStack().getItem() == Items.WRITTEN_BOOK && world.isRemote && player == ArsMagica2.proxy.getLocalPlayer())
+				if (te.getStack().getItem() == ItemDefs.spellRecipe && world.isRemote && player == ArsMagica2.proxy.getLocalPlayer())
 					openBook(player, te);
 				else
 					te.getStack().getItem().onItemRightClick(te.getStack(), world, player, hand);
@@ -84,7 +86,7 @@ public class BlockLectern extends BlockAMSpecialRenderContainer{
 	
 	@SideOnly(Side.CLIENT)
 	private void openBook(EntityPlayer player, TileEntityLectern te) {
-		Minecraft.getMinecraft().displayGuiScreen(new GuiScreenBook(player, te.getStack(), false));
+		Minecraft.getMinecraft().displayGuiScreen(new GuiSpellRecipe(te.getStack()));
 	}
 	
 	@Override
