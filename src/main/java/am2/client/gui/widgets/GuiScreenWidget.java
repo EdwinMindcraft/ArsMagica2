@@ -98,24 +98,14 @@ public abstract class GuiScreenWidget extends GuiScreen{
 	 * Нарисовать предмет на выбранной позиции
 	 */
 	public void drawItem(ItemStack item, int x, int y){
-		this.zLevel = 200.0F;
-		this.itemRender.zLevel = 200.0F;
-		GlStateManager.translate(0.0F, 0.0F, 32.0F);
 		this.itemRender.renderItemIntoGUI(item, x, y);
-		this.zLevel = 0.0F;
-		this.itemRender.zLevel = 0.0F;
 	}
 
 	/**
 	 * Нарисовать предмет с эффектами на выбранной позиции
 	 */
 	public void drawItemWithEffect(ItemStack item, int x, int y){
-		this.zLevel = 200.0F;
-		this.itemRender.zLevel = 200.0F;
-		GlStateManager.translate(0.0F, 0.0F, 32.0F);
 		this.itemRender.renderItemAndEffectIntoGUI(item, x, y);
-		this.zLevel = 0.0F;
-		this.itemRender.zLevel = 0.0F;
 	}
 	//endregion
 

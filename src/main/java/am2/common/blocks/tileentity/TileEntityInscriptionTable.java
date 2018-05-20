@@ -24,6 +24,7 @@ import am2.common.power.PowerTypes;
 import am2.common.spell.SpellCaster;
 import am2.common.spell.SpellValidator;
 import am2.common.utils.KeyValuePair;
+import am2.common.utils.NBTUtils;
 import am2.common.utils.RecipeUtils;
 import am2.common.utils.SpellUtils;
 import net.minecraft.block.Block;
@@ -770,12 +771,20 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			
 			//Materials
 			NBTTagList materialsNBTList = new NBTTagList();
+			ItemStack[] spellCombo = new ItemStack[materialsList.size() - 1];
+			int i = 0;
 			for (String key : materialsList.keySet()){
 				NBTTagCompound material = new NBTTagCompound();
 				
 				material.setString("id", key);
 				
 				ItemStack materialStack = materialsList.get(key);
+				
+				if (i != 0)
+					spellCombo[i - 1] = materialStack;
+				
+				i++;
+				
 				//Только спустя полчаса дебага я понял, почему 500 эфира сохранялись как -12..
 				material.setInteger("count", materialStack.stackSize);
 				NBTTagCompound stackTag = new NBTTagCompound();
@@ -785,6 +794,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				materialsNBTList.appendTag(material);
 			}
 			bookstack.getTagCompound().setTag("materials", materialsNBTList);
+			NBTUtils.setItemStackArray(bookstack.getTagCompound(), "spell_combo", spellCombo);
 			
 			//Shapes
 			int sgCount = 0;
@@ -797,7 +807,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			int[] outputData = this.collectShapeGroupParts(it);
 			
 			//Affinity
-			/*it = this.currentRecipe.iterator();
+			it = this.currentRecipe.iterator();
 			HashMap<Affinity, Integer> affinityData = new HashMap<>();
 			int cpCount = 0;
 			while (it.hasNext()){
@@ -817,12 +827,18 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			ValueComparator vc = new ValueComparator(affinityData);
 			TreeMap<Affinity, Integer> sorted = new TreeMap<>(vc);
 			sorted.putAll(affinityData);
+			NBTTagList affinityList = new NBTTagList();
 			for (Affinity aff : sorted.keySet()){
 				float pct = (float)sorted.get(aff) / (float)cpCount * 100f;
-				sb.append(String.format("%s: %.2f%%", aff.getUnlocalisedName(), pct));
-				sb.append("\n");
-			}*/
+				NBTTagCompound affinityTag = new NBTTagCompound();
+				affinityTag.setString("id", aff.getRegistryName().toString());
+				affinityTag.setFloat("value", pct);
+				affinityList.appendTag(affinityTag);
+				/*sb.append(String.format("%s: %.2f%%", aff.getUnlocalisedName(), pct));
+				sb.append("\n");*/
+			}
 			
+			bookstack.getTagCompound().setTag("affinity", affinityList);
 			bookstack.getTagCompound().setString("author", player.getDisplayNameString());
 			bookstack.getTagCompound().setIntArray("output_combo", outputData);
 			bookstack.getTagCompound().setInteger("numShapeGroups", shapeGroupCombos.length);

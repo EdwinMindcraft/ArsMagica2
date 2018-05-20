@@ -71,7 +71,7 @@ public class WidgetList<T extends Widget> extends Widget{
 	
 	@Override
 	public boolean wheel(int localX, int localY, int delta){
-		currentOffset += delta * 0.03;
+		currentOffset += delta * 0.08;
 		if (currentOffset + maxHeight + THRESHOLD < height)
 			currentOffset = height - maxHeight - THRESHOLD;
 		if (currentOffset > THRESHOLD)
