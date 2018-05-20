@@ -683,7 +683,7 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 			
 			materialsList.put(getFullItemName(ItemDefs.blankRune), new ItemStack(ItemDefs.blankRune, 1));
 			
-			//ArrayList<ItemStack> componentRecipeList = new ArrayList<>();
+			ArrayList<ItemStack> componentRecipeList = new ArrayList<>();
 			ArrayList<AbstractSpellPart> allRecipeItems = new ArrayList<>();
 			
 			for (ArrayList<AbstractSpellPart> shapeGroup : this.shapeGroups){
@@ -762,29 +762,23 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 						materialsList.put(materialkey, recipeStack);
 					}
 
-					/*if (recipeStack != null)
-						componentRecipeList.add(recipeStack);*/
+					if (recipeStack != null)
+						componentRecipeList.add(recipeStack);
 				}
 			}
 			
 			materialsList.put(getFullItemName(ItemDefs.spellParchment), new ItemStack(ItemDefs.spellParchment, 1));
 			
+			NBTUtils.setItemStackArray(bookstack.getTagCompound(), "spell_combo", componentRecipeList.toArray(new ItemStack[componentRecipeList.size()]));
+			
 			//Materials
 			NBTTagList materialsNBTList = new NBTTagList();
-			ItemStack[] spellCombo = new ItemStack[materialsList.size() - 1];
-			int i = 0;
 			for (String key : materialsList.keySet()){
 				NBTTagCompound material = new NBTTagCompound();
 				
 				material.setString("id", key);
 				
 				ItemStack materialStack = materialsList.get(key);
-				
-				if (i != 0)
-					spellCombo[i - 1] = materialStack;
-				
-				i++;
-				
 				//Только спустя полчаса дебага я понял, почему 500 эфира сохранялись как -12..
 				material.setInteger("count", materialStack.stackSize);
 				NBTTagCompound stackTag = new NBTTagCompound();
@@ -794,7 +788,6 @@ public class TileEntityInscriptionTable extends TileEntity implements IInventory
 				materialsNBTList.appendTag(material);
 			}
 			bookstack.getTagCompound().setTag("materials", materialsNBTList);
-			NBTUtils.setItemStackArray(bookstack.getTagCompound(), "spell_combo", spellCombo);
 			
 			//Shapes
 			int sgCount = 0;
